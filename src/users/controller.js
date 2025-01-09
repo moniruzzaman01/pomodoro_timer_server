@@ -9,7 +9,6 @@ const getUsers = (req, res) => {
 };
 const getAUser = (req, res) => {
   const id = req.params.id;
-  console.log("id", id);
   pool.query(usersQueries.getUserById, [id], (err, result) => {
     if (err) throw err;
     res.status(200).send(result.rows);
@@ -17,7 +16,6 @@ const getAUser = (req, res) => {
 };
 const addAUser = (req, res) => {
   const { name, email } = req.body;
-  console.log("body", req.body);
   pool.query(usersQueries.isEmailExist, [email], (err, result) => {
     if (err) throw err;
     if (result.rows.length) {
