@@ -4,57 +4,53 @@ const sessionController = require("./queries");
 const getAllFocusSession = (req, res) => {
   pool.query(sessionController.getAllSession, (err, result) => {
     if (err) throw err;
-    res.status(200).send({ count: result.rows.length, data: result.rows });
+    res.status(200).send(result.rows);
   });
 };
 const getAllFocusSessionByUserId = (req, res) => {
-  const { id } = req.params;
-  pool.query(sessionController.getAllSessionByUserId, [id], (err, result) => {
-    if (err) throw err;
-    res.status(200).send({ count: result.rows.length, data: result.rows });
-  });
-};
-const addSession = (req, res) => {
-  const { userid, duration } = req.body;
+  const { email } = req.params;
   pool.query(
-    sessionController.addSession,
-    [userid, duration],
+    sessionController.getAllSessionByUserId,
+    [email],
     (err, result) => {
       if (err) throw err;
-      res.status(200).send("Session added successfully!");
+      res.status(200).send(result.rows);
     }
   );
 };
-const getTodaysSession = (req, res) => {
-  const { userid } = req.params;
-  pool.query(sessionController.todaysSession, [userid], (err, result) => {
+const addSession = (req, res) => {
+  const { email, duration } = req.body;
+  pool.query(sessionController.addSession, [email, duration], (err, result) => {
     if (err) throw err;
-    res.status(200).send({ count: result.rows.length, data: result.rows });
+    res.status(200).send("Session added successfully!");
+  });
+};
+const getTodaysSession = (req, res) => {
+  const { email } = req.params;
+  pool.query(sessionController.todaysSession, [email], (err, result) => {
+    if (err) throw err;
+    res.status(200).send(result.rows);
   });
 };
 const getLastSevenDaysSession = (req, res) => {
-  const { userid } = req.params;
-  pool.query(
-    sessionController.lastSevenDaysSession,
-    [userid],
-    (err, result) => {
-      if (err) throw err;
-      res.status(200).send({ count: result.rows.length, data: result.rows });
-    }
-  );
+  const { email } = req.params;
+  pool.query(sessionController.lastSevenDaysSession, [email], (err, result) => {
+    if (err) throw err;
+    res.status(200).send(result.rows);
+  });
 };
 const getThisMonthSession = (req, res) => {
-  const { userid } = req.params;
-  pool.query(sessionController.thisMonthSession, [userid], (err, result) => {
+  const { email } = req.params;
+  pool.query(sessionController.thisMonthSession, [email], (err, result) => {
     if (err) throw err;
-    res.status(200).send({ count: result.rows.length, data: result.rows });
+    res.status(200).send(result.rows);
   });
 };
 const getThisYearSession = (req, res) => {
-  const { userid } = req.params;
-  pool.query(sessionController.thisYearSession, [userid], (err, result) => {
+  const { email } = req.params;
+  pool.query(sessionController.thisYearSession, [email], (err, result) => {
     if (err) throw err;
-    res.status(200).send({ count: result.rows.length, data: result.rows });
+    res.status(200).send(result.rows);
   });
 };
 

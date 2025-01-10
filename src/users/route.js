@@ -7,6 +7,6 @@ router.get("/", (req, res) => {
 });
 router.get("/all", usersController.getUsers);
 router.post("/add-a-user", usersController.addAUser);
-router.get("/:id", usersController.getAUser);
+router.get("/:email", usersController.getAUser);
 
 module.exports = router;

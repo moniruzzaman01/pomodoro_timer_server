@@ -8,26 +8,34 @@ const getUsers = (req, res) => {
   });
 };
 const getAUser = (req, res) => {
-  const id = req.params.id;
-  pool.query(usersQueries.getUserById, [id], (err, result) => {
+  const email = req.params.email;
+  pool.query(usersQueries.getUserById, [email], (err, result) => {
     if (err) throw err;
     res.status(200).send(result.rows);
   });
 };
 const addAUser = (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, image } = req.body;
+  // console.log("resss", req.body);
+  // if (!name || !email || !image)
+  //   return res.send({ message: "provide all required fields" });
   pool.query(usersQueries.isEmailExist, [email], (err, result) => {
     if (err) throw err;
     if (result.rows.length) {
-      return res.send("Email already exist!!!");
+      return res.send({ message: "Email already exist" });
     }
-    pool.query(usersQueries.insertAUser, [name, email], (err1, result1) => {
-      if (err1) throw err1;
-      res
-        .status(201)
-        // .send(`User created successfully! ${JSON.stringify(result1)}`);
-        .send(`User created successfully!`);
-    });
+    //adding data if not already stored in table
+    pool.query(
+      usersQueries.insertAUser,
+      [name, email, image],
+      (err1, result1) => {
+        if (err1) throw err1;
+        res
+          .status(201)
+          // .send(`User created successfully! ${JSON.stringify(result1)}`);
+          .send({ message: `User created successfully!` });
+      }
+    );
   });
 };
 module.exports = { getUsers, getAUser, addAUser };
