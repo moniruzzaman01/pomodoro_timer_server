@@ -9,6 +9,10 @@ const getAllFocusSession = (req, res) => {
 };
 const getAllFocusSessionByUserId = (req, res) => {
   const { email } = req.params;
+
+  if (email !== req.verifiedEmail)
+    return res.status(403).send({ message: "forbidden!" });
+
   pool.query(
     sessionController.getAllSessionByUserId,
     [email],
@@ -27,6 +31,10 @@ const addSession = (req, res) => {
 };
 const getTodaysSession = (req, res) => {
   const { email } = req.params;
+
+  if (email !== req.verifiedEmail)
+    return res.status(403).send({ message: "forbidden!" });
+
   pool.query(sessionController.todaysSession, [email], (err, result) => {
     if (err) throw err;
     res.status(200).send(result.rows);
@@ -34,6 +42,10 @@ const getTodaysSession = (req, res) => {
 };
 const getLastSevenDaysSession = (req, res) => {
   const { email } = req.params;
+
+  if (email !== req.verifiedEmail)
+    return res.status(403).send({ message: "forbidden!" });
+
   pool.query(sessionController.lastSevenDaysSession, [email], (err, result) => {
     if (err) throw err;
     res.status(200).send(result.rows);
@@ -41,6 +53,10 @@ const getLastSevenDaysSession = (req, res) => {
 };
 const getThisMonthSession = (req, res) => {
   const { email } = req.params;
+
+  if (email !== req.verifiedEmail)
+    return res.status(403).send({ message: "forbidden!" });
+
   pool.query(sessionController.thisMonthSession, [email], (err, result) => {
     if (err) throw err;
     res.status(200).send(result.rows);
@@ -48,6 +64,10 @@ const getThisMonthSession = (req, res) => {
 };
 const getThisYearSession = (req, res) => {
   const { email } = req.params;
+
+  if (email !== req.verifiedEmail)
+    return res.status(403).send({ message: "forbidden!" });
+
   pool.query(sessionController.thisYearSession, [email], (err, result) => {
     if (err) throw err;
     res.status(200).send(result.rows);
@@ -55,9 +75,13 @@ const getThisYearSession = (req, res) => {
 };
 const getTodaysDuration = (req, res) => {
   const { email } = req.params;
+
+  if (email !== req.verifiedEmail)
+    return res.status(403).send({ message: "forbidden!" });
+
   pool.query(sessionController.todaysSession, [email], (err, result) => {
     if (err) throw err;
-    console.log(result.rows);
+    // console.log(result.rows);
     const duration = result.rows.reduce((ac, cv) => ac + cv.duration, 0);
     res.status(200).send({ duration });
   });
