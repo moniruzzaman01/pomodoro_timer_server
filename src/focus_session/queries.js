@@ -3,6 +3,8 @@ const getAllSessionByUserId = "SELECT * FROM focus_session WHERE email = $1";
 const addSession = "INSERT INTO focus_session (email,duration) VALUES ($1,$2)";
 const todaysSession =
   "SELECT * FROM focus_session WHERE DATE(timestamp) = CURRENT_DATE AND email = $1";
+const totalDurationToday =
+  "SELECT * FROM focus_session WHERE DATE(timestamp) = CURRENT_DATE AND email = $1";
 const lastSevenDaysSession =
   "SELECT * FROM focus_session WHERE timestamp >= NOW() - INTERVAL '7 days' AND email = $1";
 const thisMonthSession =
@@ -18,4 +20,5 @@ module.exports = {
   lastSevenDaysSession,
   thisYearSession,
   thisMonthSession,
+  totalDurationToday,
 };

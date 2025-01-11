@@ -22,7 +22,7 @@ const addSession = (req, res) => {
   const { email, duration } = req.body;
   pool.query(sessionController.addSession, [email, duration], (err, result) => {
     if (err) throw err;
-    res.status(200).send("Session added successfully!");
+    res.status(200).send({ message: "Session added successfully!" });
   });
 };
 const getTodaysSession = (req, res) => {
@@ -53,6 +53,15 @@ const getThisYearSession = (req, res) => {
     res.status(200).send(result.rows);
   });
 };
+const getTodaysDuration = (req, res) => {
+  const { email } = req.params;
+  pool.query(sessionController.todaysSession, [email], (err, result) => {
+    if (err) throw err;
+    console.log(result.rows);
+    const duration = result.rows.reduce((ac, cv) => ac + cv.duration, 0);
+    res.status(200).send({ duration });
+  });
+};
 
 module.exports = {
   getAllFocusSession,
@@ -62,4 +71,5 @@ module.exports = {
   getLastSevenDaysSession,
   getThisYearSession,
   getThisMonthSession,
+  getTodaysDuration,
 };

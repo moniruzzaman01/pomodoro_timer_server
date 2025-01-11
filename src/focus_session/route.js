@@ -7,6 +7,7 @@ router.get("/", (req, res) => {
 });
 router.get("/all", sessionController.getAllFocusSession);
 router.get("/todays-session/:email", sessionController.getTodaysSession);
+router.get("/todays-duration/:email", sessionController.getTodaysDuration);
 router.get(
   "/last-seven-days-session/:email",
   sessionController.getLastSevenDaysSession
