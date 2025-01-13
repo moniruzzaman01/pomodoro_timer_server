@@ -8,7 +8,14 @@ const cors = require("cors");
 const authenticateToken = require("./middlewared/jwtMiddleware");
 
 const app = express();
-app.use(cors({ origin: ["http://localhost:3000"] }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://pomodoro-timer-client.vercel.app",
+    ],
+  })
+);
 app.use(express.json());
 
 app.get("/", async (req, res) => {
@@ -16,7 +23,6 @@ app.get("/", async (req, res) => {
 });
 app.post("/jwt", (req, res) => {
   const { email } = req.body || {};
-  console.log("email", email);
   const token = jwt.sign({ email }, process.env.JWT_SECRET);
   res.send({ token });
 });
